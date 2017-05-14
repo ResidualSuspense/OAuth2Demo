@@ -15,7 +15,7 @@ import java.io.IOException;
  * 自定义401错误码内容
  * Created by xs on 2017-04-25.
  */
-@Component
+//@Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final Logger log = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);

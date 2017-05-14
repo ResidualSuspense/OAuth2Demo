@@ -10,28 +10,39 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    @Autowired
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+//    @Autowired
+//    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            http
-                    .exceptionHandling()
-                    .authenticationEntryPoint(customAuthenticationEntryPoint)
-                    .and()
-                    .logout()
-                    .logoutUrl("/oauth/logout")
-                    .logoutSuccessHandler(customLogoutSuccessHandler)
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/v2/**","/swagger**", "/druid/**").permitAll()
-                    .antMatchers(HttpMethod.GET, "/user/**").permitAll()
-                    .antMatchers("/user/**").authenticated()
-                    .anyRequest().authenticated();
-        }
+//        @Override
+//        public void configure(HttpSecurity http) throws Exception {
+//            http
+//                    .exceptionHandling()
+//                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+//                    .and()
+//                    .logout()
+//                    .logoutUrl("/oauth/logout")
+//                    .logoutSuccessHandler(customLogoutSuccessHandler)
+//                    .and()
+//                    .authorizeRequests()
+//                    .antMatchers("/").permitAll()
+//                    .antMatchers("/v2/**","/swagger**", "/druid/**").permitAll()
+//                    .antMatchers(HttpMethod.GET, "/user/**").permitAll()
+//                    .antMatchers("/user/**").authenticated()
+//                    .anyRequest().authenticated();
+//        }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/v2/**","/swagger**", "/druid/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
+                .antMatchers("/user/**").authenticated()
+                .anyRequest().authenticated();
+    }
 
 
 

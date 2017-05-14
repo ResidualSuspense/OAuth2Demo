@@ -33,7 +33,7 @@ public class ServiceMonitor {
      * situation where it happened. Then create a server internal error
      * exception and throw it out.
      */
-    @AfterThrowing(pointcut = "com.wind.monitor.ServiceMonitor.serviceLayer()", throwing = "e")
+    @AfterThrowing(pointcut = "com.xs.monitor.ServiceMonitor.serviceLayer()", throwing = "e")
     public void monitorException(JoinPoint joinPoint, Throwable e) {
         // Log the situation where exception happened
         Object[] args = joinPoint.getArgs();

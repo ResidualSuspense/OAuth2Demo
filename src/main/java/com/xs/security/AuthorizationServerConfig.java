@@ -2,7 +2,6 @@ package com.xs.security;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.xs.config.DruidAutoConfig;
-import com.xs.config.DruidProperties;
 import com.xs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
@@ -27,29 +27,29 @@ import java.sql.SQLException;
 @AutoConfigureAfter(DruidAutoConfig.class)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+//    @Autowired
+//    private DruidProperties properties;
     @Autowired
-    private DruidProperties properties;
-
     private DruidDataSource dataSource;
 
-    @Bean
-    public DataSource dataSource() {
-        dataSource = new DruidDataSource();
-        dataSource.setUrl(properties.getUrl());
-        dataSource.setUsername(properties.getUsername());
-        dataSource.setPassword(properties.getPassword());
-        dataSource.setInitialSize(properties.getInitialSize());
-        dataSource.setMinIdle(properties.getMinIdle());
-        dataSource.setMaxActive(properties.getMaxActive());
-        dataSource.setTestOnBorrow(properties.isTestOnBorrow());
-        try {
-            dataSource.setFilters(properties.getFilters());
-            dataSource.init();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return dataSource;
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        dataSource = new DruidDataSource();
+//        dataSource.setUrl(properties.getUrl());
+//        dataSource.setUsername(properties.getUsername());
+//        dataSource.setPassword(properties.getPassword());
+//        dataSource.setInitialSize(properties.getInitialSize());
+//        dataSource.setMinIdle(properties.getMinIdle());
+//        dataSource.setMaxActive(properties.getMaxActive());
+//        dataSource.setTestOnBorrow(properties.isTestOnBorrow());
+//        try {
+//            dataSource.setFilters(properties.getFilters());
+//            dataSource.init();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return dataSource;
+//    }
 
     @Autowired
     private TokenStore tokenStore;
@@ -82,13 +82,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public TokenStore tokenStore() {
-        if (dataSource == null) dataSource();
+   //     if (dataSource == null) dataSource();
         return new JdbcTokenStore(dataSource);
     }
 
     @Bean
     public ClientDetailsService clientDetails() {
-        if (dataSource == null) dataSource();
+    //    if (dataSource == null) dataSource();
         return new JdbcClientDetailsService(dataSource);
     }
 
@@ -101,9 +101,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return tokenServices;
     }
 
-//    @Override
-//    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-//        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
-//    }
+    @Override
+    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+    }
 
 }
