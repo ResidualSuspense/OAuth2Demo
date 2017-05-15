@@ -2,6 +2,7 @@ package com.xs.monitor;
 
 import com.xs.exception.ServerInternalErrorException;
 import lombok.extern.apachecommons.CommonsLog;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -12,12 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-
-@CommonsLog
+@Slf4j
 @Aspect
 @Component
 public class ServiceMonitor {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * A join point is in the service layer if the method is defined
      * in a type in the com.shawn.service package or any sub-package

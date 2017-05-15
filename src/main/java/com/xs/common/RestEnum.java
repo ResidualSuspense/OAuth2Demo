@@ -8,7 +8,10 @@ package com.xs.common;
 public enum RestEnum {
     SUCCESS(0,"成功"),
     UNKONW_ERROR(-1,"未知错误"),
-    PARAMETER_INVALID(5000,"参数错误"),     ;
+    PARAMETER_INVALID(5000,"参数错误"),
+
+    //user module
+    ACCOUNT_NON_EXISTENT(1000,"用户不存在");
 
 
     private Integer code;

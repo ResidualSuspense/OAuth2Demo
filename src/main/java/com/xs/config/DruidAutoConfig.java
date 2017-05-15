@@ -9,23 +9,24 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 //@EnableConfigurationProperties(DruidProperties.class)
 public class DruidAutoConfig {
 
 //    @Autowired
 //    private DruidProperties properties;
 
-//    @Bean
-//    public ServletRegistrationBean DruidStatViewServle2() {
-//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-//        //白名单：
-//        servletRegistrationBean.addInitParameter("allow", properties.getAllow());
-//        //登录查看信息的账号密码.
-//        servletRegistrationBean.addInitParameter("loginUsername", properties.getUsername());
-//        servletRegistrationBean.addInitParameter("loginPassword", properties.getPassword());
-//        return servletRegistrationBean;
-//    }
+    @Bean
+    public ServletRegistrationBean DruidStatViewServle2() {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+        //白名单：
+        servletRegistrationBean.addInitParameter("allow", "127.0.0.1");
+        //登录查看信息的账号密码.
+        servletRegistrationBean.addInitParameter("loginUsername", "xs");
+        servletRegistrationBean.addInitParameter("loginPassword", "123456");
+
+        return servletRegistrationBean;
+    }
 
     @Bean
     public FilterRegistrationBean druidStatFilter2() {
