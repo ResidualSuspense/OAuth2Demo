@@ -20,16 +20,7 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @RequestMapping(value = "findUserByName",method = RequestMethod.GET)
-    public ResultJson findUserByName(@RequestParam("name")String name){
-        if (StringUtils.isEmpty(name)){
-            return ResultUtils.error(RestEnum.PARAMETER_INVALID);
-        }
-        UserDetails userDetails = userService.loadUserByUsername(name);
-        return  ResultUtils.success(userDetails);
-    }
-
-//    @GetMapping("")
+//    @RequestMapping(value = "findUserByName",method = RequestMethod.GET)
 //    public ResultJson findUserByName(@RequestParam("name")String name){
 //        if (StringUtils.isEmpty(name)){
 //            return ResultUtils.error(RestEnum.PARAMETER_INVALID);
@@ -37,4 +28,13 @@ public class UserController {
 //        UserDetails userDetails = userService.loadUserByUsername(name);
 //        return  ResultUtils.success(userDetails);
 //    }
+
+    @GetMapping("{name}")
+    public ResultJson findUserByName(@PathVariable("name") String name){
+        if (StringUtils.isEmpty(name)){
+            return ResultUtils.error(RestEnum.PARAMETER_INVALID);
+        }
+        UserDetails userDetails = userService.loadUserByUsername(name);
+        return  ResultUtils.success(userDetails);
+    }
 }

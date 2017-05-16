@@ -29,10 +29,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/v2/**","/swagger**", "/druid/**").permitAll()
 //                    .antMatchers(HttpMethod.GET, "/user/**").permitAll()
-//                    .antMatchers("/user/**").authenticated()
-                    .anyRequest().authenticated();
+                    .antMatchers("/user/**").authenticated()
+//                    .anyRequest().authenticated();
+                    .anyRequest().permitAll();
         }
-
 
 
 

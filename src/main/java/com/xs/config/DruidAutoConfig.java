@@ -10,21 +10,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@EnableConfigurationProperties(DruidProperties.class)
 public class DruidAutoConfig {
 
-//    @Autowired
-//    private DruidProperties properties;
 
     @Bean
     public ServletRegistrationBean DruidStatViewServle2() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-        //白名单：
+        //设置ip白名单：
         servletRegistrationBean.addInitParameter("allow", "127.0.0.1");
+        //设置ip黑名单，如果allow与deny共同存在时,deny优先于allow
+        servletRegistrationBean.addInitParameter("deny","192.168.0.19");
         //登录查看信息的账号密码.
         servletRegistrationBean.addInitParameter("loginUsername", "xs");
         servletRegistrationBean.addInitParameter("loginPassword", "123456");
-
+        //是否可以重置数据
+        servletRegistrationBean.addInitParameter("resetEnable","false");
         return servletRegistrationBean;
     }
 
