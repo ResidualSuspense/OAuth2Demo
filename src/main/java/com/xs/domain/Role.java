@@ -1,6 +1,8 @@
 package com.xs.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,9 +10,10 @@ import java.util.Set;
 /**
  * Created by xs on 2017-05-17.
  */
-@Data
+@Getter
+@Setter
 @Entity
-public class Role extends BaseEntity{
+public class Role  {
 
     @Id
     @GeneratedValue

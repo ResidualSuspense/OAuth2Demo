@@ -2,7 +2,6 @@ package com.xs.security;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.xs.config.DruidAutoConfig;
-import com.xs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -20,9 +19,6 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
 @Configuration
 @AutoConfigureAfter(DruidAutoConfig.class)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -31,6 +27,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //    private DruidProperties properties;
     @Autowired
     private DruidDataSource dataSource;
+    @Autowired
+    private MyUserDetailService userDetailService;
 
 //    @Bean
 //    public DataSource dataSource() {
@@ -58,8 +56,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -77,7 +73,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints
                 .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userService);
+                .userDetailsService(userDetailService);
     }
 
     @Bean

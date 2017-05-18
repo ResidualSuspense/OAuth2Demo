@@ -1,11 +1,14 @@
 package com.xs.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
-@Data
+@Getter
+@Setter
 @Entity
-public class User extends BaseEntity{
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

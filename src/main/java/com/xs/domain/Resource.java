@@ -1,6 +1,8 @@
 package com.xs.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,8 @@ import javax.persistence.Id;
 /**
  * Created by xiaosong on 2017/5/17.
  */
-@Data
+@Getter
+@Setter
 @Entity
 public class Resource extends BaseEntity{
 

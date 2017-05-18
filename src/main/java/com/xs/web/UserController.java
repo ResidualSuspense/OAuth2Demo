@@ -5,11 +5,13 @@ import com.xs.common.ResultJson;
 import com.xs.common.ResultUtils;
 import com.xs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 
 /**
  * Created by xs on 2017-04-25.
@@ -28,7 +30,7 @@ public class UserController {
 //        UserDetails userDetails = userService.loadUserByUsername(name);
 //        return  ResultUtils.success(userDetails);
 //    }
-
+    @RolesAllowed("ROLE_ADMIN")
     @GetMapping("{name}")
     public ResultJson findUserByName(@PathVariable("name") String name){
         if (StringUtils.isEmpty(name)){
