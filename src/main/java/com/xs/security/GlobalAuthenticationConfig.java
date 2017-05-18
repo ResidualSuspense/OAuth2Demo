@@ -13,10 +13,12 @@ public class GlobalAuthenticationConfig extends GlobalAuthenticationConfigurerAd
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MyUserDetailService userDetailService;
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userDetailService);
     }
 
 }

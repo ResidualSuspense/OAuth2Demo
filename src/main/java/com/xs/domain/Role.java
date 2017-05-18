@@ -18,9 +18,9 @@ public class Role extends BaseEntity{
 
     private String name;
 
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     private Set<User> users;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Resource> resources;
 }
