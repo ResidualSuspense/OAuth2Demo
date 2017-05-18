@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private MyUserDetailService userDetailService;
 
     @Autowired
-    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+    private MyFilterSecurityInterceptor  myFilterSecurityInterceptor;
 
 
 
@@ -61,8 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //排除/hello路径拦截
     @Override
     public void configure(WebSecurity web) throws Exception {
+        // javaconfig 配置是这样 set 进去的.
         web.securityInterceptor(myFilterSecurityInterceptor);
-    //    web.privilegeEvaluator(new DefaultWebInvocationPrivilegeEvaluator());
+        web.privilegeEvaluator(new DefaultWebInvocationPrivilegeEvaluator(myFilterSecurityInterceptor));
         web.ignoring().antMatchers("/hello");
     }
 

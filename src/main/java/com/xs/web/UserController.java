@@ -30,13 +30,14 @@ public class UserController {
 //        UserDetails userDetails = userService.loadUserByUsername(name);
 //        return  ResultUtils.success(userDetails);
 //    }
-    @RolesAllowed("ROLE_ADMIN")
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("{name}")
-    public ResultJson findUserByName(@PathVariable("name") String name){
-        if (StringUtils.isEmpty(name)){
+    public ResultJson findUserByName(@PathVariable("name") String name) {
+        if (StringUtils.isEmpty(name)) {
             return ResultUtils.error(RestEnum.PARAMETER_INVALID);
         }
         UserDetails userDetails = userService.loadUserByUsername(name);
-        return  ResultUtils.success(userDetails);
+        return ResultUtils.success(userDetails);
     }
 }
