@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by xs on 2017-05-18.
  */
-@Service
+//@Service
 public class MyFilterSecurityInterceptor extends FilterSecurityInterceptor implements Filter {
 
     @Autowired

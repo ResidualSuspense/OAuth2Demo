@@ -1,10 +1,9 @@
 package com.xs.security;
 
-import com.xs.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         User principal = (User) authentication.getPrincipal();
         //输出登录提示信息
-        log.info("管理员 " + principal.getName() + " 登录");
+        log.info("管理员 " + principal.getUsername() + " 登录");
+        log.info("role: " + principal.getAuthorities());
         log.info("IP :" + getIpAddress(request));
         super.onAuthenticationSuccess(request, response, authentication);
     }

@@ -30,6 +30,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -39,8 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailService userDetailService;
 
-    @Autowired
-    private MyFilterSecurityInterceptor  myFilterSecurityInterceptor;
+//    @Autowired
+//    private MyFilterSecurityInterceptor  myFilterSecurityInterceptor;
 
 
 
@@ -49,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         //设置UserDetailsService以及密码规则
         auth.userDetailsService(userDetailService);     //.passwordEncoder(bCryptPasswordEncoder());
+        auth.eraseCredentials(false);
     }
 
     //配置匹配用户时密码规则
@@ -59,36 +61,57 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     //排除/hello路径拦截
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // javaconfig 配置是这样 set 进去的.
-        web.securityInterceptor(myFilterSecurityInterceptor);
-        web.privilegeEvaluator(new DefaultWebInvocationPrivilegeEvaluator(myFilterSecurityInterceptor));
-        web.ignoring().antMatchers("/hello");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // javaconfig 配置是这样 set 进去的.
+//        web.securityInterceptor(myFilterSecurityInterceptor);
+//        web.privilegeEvaluator(new DefaultWebInvocationPrivilegeEvaluator(myFilterSecurityInterceptor));
+//    }
 
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/resources", "/login").permitAll()//访问：这些路径 无需登录认证权限
+//                .anyRequest().authenticated() //其他所有资源都需要认证，登陆后访问
+//                .and()
+//                .formLogin()
+//                .loginPage("/")//指定登录页是”/”
+//                .permitAll()
+//                .successHandler(customLoginSuccessHandler()) //登录成功后可使用loginSuccessHandler()存储用户信息，可选。
+//                .and()
+//                .logout()
+//                .logoutUrl("/admin/logout")
+//                .logoutSuccessUrl("/") //退出登录后的默认网址是”/home”
+//                .permitAll()
+//                .invalidateHttpSession(true)
+//                .and()
+//                //.rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
+//                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+//
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
                 .authorizeRequests()
-                .antMatchers("/resources", "/login").permitAll()//访问：这些路径 无需登录认证权限
+                .antMatchers("/home").permitAll()//访问：/home 无需登录认证权限
                 .anyRequest().authenticated() //其他所有资源都需要认证，登陆后访问
+                .antMatchers("/hello").hasRole("ADMIN") //登陆后之后拥有“ADMIN”权限才可以访问/hello方法，否则系统会出现“403”权限不足的提示
                 .and()
                 .formLogin()
-                .loginPage("/")//指定登录页是”/”
+                .loginPage("/login")//指定登录页是”/login”
                 .permitAll()
                 .successHandler(customLoginSuccessHandler()) //登录成功后可使用loginSuccessHandler()存储用户信息，可选。
                 .and()
                 .logout()
-                .logoutUrl("/admin/logout")
-                .logoutSuccessUrl("/") //退出登录后的默认网址是”/home”
-                .permitAll()
-                .invalidateHttpSession(true)
-                .and()
-                //.rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
-                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-
+                .logoutSuccessUrl("/home") //退出登录后的默认网址是”/home”
+                .permitAll();
+        //  .invalidateHttpSession(true);
+        //   .and()
+        //   .rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
+        //    .tokenValiditySeconds(1209600);
     }
 
     @Bean
@@ -106,12 +129,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     //开启全局方法拦截
-    @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-    public static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-        @Override
-        protected MethodSecurityExpressionHandler createExpressionHandler() {
-            return new OAuth2MethodSecurityExpressionHandler();
-        }
-
-    }
+//    @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
+//    public static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
+////        @Override
+////        protected MethodSecurityExpressionHandler createExpressionHandler() {
+////            return new OAuth2MethodSecurityExpressionHandler();
+////        }
+//
+//    }
 }

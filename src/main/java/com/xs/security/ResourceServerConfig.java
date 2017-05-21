@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
-@Configuration
-@EnableResourceServer
+//@Configuration
+//@EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -30,8 +30,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/v2/**","/swagger**", "/druid/**").permitAll()
 //                    .antMatchers(HttpMethod.GET, "/user/**").permitAll()
                     .antMatchers("/user/**").authenticated()
-//                    .anyRequest().authenticated();
-                    .anyRequest().permitAll();
+                    .anyRequest().authenticated();
+//                    .anyRequest().permitAll();
         }
 
 

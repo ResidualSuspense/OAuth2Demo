@@ -38,7 +38,7 @@ public class MyUserDetailService implements UserDetailsService {
                 true,//是否过期
                 true,//证书不过期为true
                 true,//账户未锁定为true ,
-                grantedAuths);
+                grantedAuthorities);
         return userDetail;
     }
 
